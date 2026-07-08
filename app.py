@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import os
+from utils.chunk_audio import split_audio
 
 app = Flask(__name__)
 
@@ -25,9 +26,13 @@ def upload():
         return "No file selected."
 
     filepath = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
+    
     file.save(filepath)
-
-    return f"✅ File '{file.filename}' uploaded successfully!"
+    
+    num_chunks = split_audio(filepath)
+    return f"""<h2>Upload Successful ✅</h2>
+    <p>File: {file.filename}</p>
+    <p>Total Chunks Created: {num_chunks}</p>"""
 
 if __name__ == "__main__":
     app.run(debug=True)
