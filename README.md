@@ -9,6 +9,3 @@ An AI-powered Speech Emotion Recognition system that detects emotions from speec
 - Streamlit
 - Librosa
 
-## Status
-
-🚧 Currently under development.
