@@ -3,6 +3,7 @@ import os
 import json
 import traceback
 
+from flask import send_file
 from collections import Counter
 from utils.chunk_audio import split_audio
 from utils.predict_emotion import predict_emotion
@@ -44,7 +45,6 @@ def upload():
     filepath = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
     
     file.save(filepath)
-    print(os.path.exists(filepath))
     
     try:
         num_chunks = split_audio(filepath)
@@ -124,6 +124,15 @@ def upload():
         total_chunks=num_chunks,
         overall_emotion=overall_emotion,
         results=results
+    )
+
+@app.route("/download")
+
+def download():
+
+    return send_file(
+        "results/emotion_analysis.json",
+        as_attachment=True
     )
 
 if __name__ == "__main__":

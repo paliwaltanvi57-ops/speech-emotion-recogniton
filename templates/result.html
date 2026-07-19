@@ -1,30 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emotion Analysis Result</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-    
+<div class="container">
 
-    <h1>🎤 Speech Emotion Recognition</h1>
+    <div class="upload-card">
 
-    <hr>
+        <h1>🎯 Analysis Complete</h1>
 
-    <h2>Analysis Result</h2>
+        <br>
 
-    <p><strong>File:</strong> {{ filename }}</p>
+        <div class="emotion-badge">
+        {{ overall_emotion }}
+        </div>
 
-    <p><strong>Total Chunks:</strong> {{ total_chunks }}</p>
+        <div class="emotion-badge">
+            {% if overall_emotion == "Happy" %}
+            😊 Happy
 
-    <p><strong>Overall Emotion:</strong> {{ overall_emotion }}</p>
+            {% elif overall_emotion == "Sad" %}
+            😢 Sad
 
+            {% elif overall_emotion == "Angry" %}
+            😡 Angry
 
+            {% elif overall_emotion == "Fear" %}
+            😨 Fear
+
+            {% elif overall_emotion == "Disgust" %}
+            🤢 Disgust
+
+            {% elif overall_emotion == "Surprised" %}
+            😲 Surprised
+
+            {% elif overall_emotion == "Neutral" %}
+            😐 Neutral
+
+            {% else %}
+            😌 Calm
+
+            {% endif %}
+
+        </div>
+
+        <br>
+
+        <h2>Average Confidence</h2>
+
+        <div class="progress">
+            <div class="progress-fill"style="width: {{ average_confidence }}%;">
+                 {{ average_confidence }}%
+            </div>
+        </div>
+
+        <br><br>
+
+        <table>
+
+            <tr>
+                <th>Chunk</th>
+                <th>Emotion</th>
+                <th>Confidence</th>
+            </tr>
+
+            {% for result in results %}
+
+            <tr>
+                <td>{{ result.chunk }}</td>
+                <td>
+                    {% if result.emotion=="Happy" %}
+                    🟡 Happy
+                    
+                    {% elif result.emotion=="Sad" %}
+                    🔵 Sad
+
+                    {% elif result.emotion=="Angry" %}
+                    🔴 Angry
+
+                    {% elif result.emotion=="Fear" %}
+                    🟣 Fear
+
+                    {% elif result.emotion=="Disgust" %}
+                    🟤 Disgust
+
+                    {% elif result.emotion=="Surprised" %}
+                    🟠 Surprised
+
+                    {% elif result.emotion=="Neutral" %}
+                    ⚪ Neutral
+
+                    {% else %}
+                    🟢 Calm
+
+                    {% endif %}
+
+                </td>
+
+                <td>{{ result.confidence }}</td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        <br>
+
+        <a href="/">
+            <button>Analyze Another Audio</button>
+            <br><br>
+            <a href="/download">
+            <button>
+            Download JSON Report
+            </button>
+        </a>
+
+    </div>
+
+</div>
 
 </body>
-
 </html>

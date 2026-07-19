@@ -1,23 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>Speech Emotion Recognition</title>
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
 <body>
 
-    <h1>Speech Emotion Recognition</h1>
 
-    <h3>Upload a WAV Audio File</h3>
+<div class="container">
 
-    <form action="/upload" method="POST" enctype="multipart/form-data">
+    <h1>🎙 Speech Emotion Recognition</h1>
 
-        <input type="file" name="audio" accept=".wav">
+    <p class="subtitle">
+        Upload a WAV audio file and let AI analyze the speaker's emotion.
+    </p>
 
-        <br><br>
+    <div class="upload-card">
 
-        <button type="submit">Upload</button>
+        <form id="uploadForm"
+              action="/upload"
+              method="POST"
+              enctype="multipart/form-data">
 
-    </form>
+            <input
+                type="file"
+                name="audio"
+                accept=".wav"
+                required>
+
+            <button type="submit">
+                Analyze Emotion
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div id="loading-screen">
+
+    <div class="loader"></div>
+
+    <h2>Analyzing Audio...</h2>
+
+    <p>Please wait while AI processes your recording.</p>
+
+</div>
+
+<script>
+
+document.getElementById("uploadForm").addEventListener("submit",function(){
+
+document.getElementById("loading-screen").style.display="flex";
+
+});
+
+</script>
 
 </body>
+
 </html>
